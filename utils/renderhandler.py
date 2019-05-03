@@ -10,8 +10,8 @@ class RenderHandler:
         self.key_start = 0
 
     def __debug(self):
-        self.game.screen.blit(self.font.render("{} FPS".format(int(self.game.clock.get_fps())), True, (0, 0, 0)), (10, 10))
-        self.game.screen.blit(self.font.render("Tick: {}ms".format(self.game.ms), True, (0, 0, 0)), (10, 25))
+        self.game.screen.blit(self.font.render("{} FPS".format(int(self.game.clock.get_fps())), True, (255, 255, 255)), (10, 10))
+        self.game.screen.blit(self.font.render("Tick: {}ms".format(self.game.ms), True, (255, 255, 255)), (10, 25))
 
     def render(self):
         if self.game.clock.get_fps() >= 1:
@@ -20,7 +20,7 @@ class RenderHandler:
         if self.started:
             tick = round(1000 / self.game.clock.get_fps())
             self.game.ms += tick
-            self.game.screen.fill((255, 255, 255))
+            self.game.screen.fill((15, 15, 15))
 
             self.__debug()
             self.key_start += tick
@@ -39,6 +39,6 @@ class RenderHandler:
                     self.game.movement_controller.move_x(speed)
                 self.key_start = 0
 
-            pygame.draw.circle(self.game.screen, (0, 0, 0), self.game.movement_controller.pos, 15, 0)
+            pygame.draw.circle(self.game.screen, (255, 255, 255), self.game.movement_controller.pos, 15, 0)
 
             pygame.display.flip()
