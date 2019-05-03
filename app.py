@@ -10,10 +10,10 @@ class Game:
         pygame.display.set_caption("Bullethell")
         self.clock = pygame.time.Clock()
 
-        self.is_running = False
         self.event_handler = EventHandler(self)
         self.movement_controller = MovementController(self)
         self.render_handler = RenderHandler(self)
+        self.is_running = False
         self.ms = 0
 
     def run(self):
