@@ -18,11 +18,12 @@ class RenderHandler:
             self.started = True
 
         if self.started:
-            self.game.ms += round(1000 / self.game.clock.get_fps())
+            tick = round(1000 / self.game.clock.get_fps())
+            self.game.ms += tick
             self.game.screen.fill((255, 255, 255))
 
             self.__debug()
-            self.key_start += round(1000 / self.game.clock.get_fps())
+            self.key_start += tick
             if self.key_start >= 20:
                 keys = pygame.key.get_pressed()
                 speed = 6
