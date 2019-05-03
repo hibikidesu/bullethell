@@ -44,8 +44,8 @@ class RenderHandler:
                 if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
                     self.game.movement_controller.move_x(speed)
                 if keys[pygame.K_SPACE] or keys[pygame.K_z]:
-                    self.bullets.append(Bullet([self.game.movement_controller.pos[0] - 5,
-                                                self.game.movement_controller.pos[1] - 30], 20))
+                    self.bullets.append(Bullet([self.game.movement_controller.pos[0],
+                                                self.game.movement_controller.pos[1] - 10], 20))
 
                 self.key_start = 0
 
