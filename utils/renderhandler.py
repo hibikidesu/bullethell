@@ -11,13 +11,15 @@ class RenderHandler:
         self.font = pygame.font.Font(None, 20)
         self.key_start = 0
         self.bullet_start = 0
-        self.bullets = []
+        self.boss_bullet_time = 0
+        self.player_bullets = []
+        self.boss_bullets = []
         self.boss = Boss(2)
 
     def __debug(self):
         self.game.screen.blit(self.font.render("{} FPS".format(int(self.game.clock.get_fps())), True, (0, 0, 0)), (10, 10))
         self.game.screen.blit(self.font.render("Tick: {}ms".format(self.game.ms), True, (0, 0, 0)), (10, 25))
-        self.game.screen.blit(self.font.render("Bullets: {}".format(len(self.bullets)), True, (0, 0, 0)), (10, 40))
+        self.game.screen.blit(self.font.render("Bullets: {}".format(len(self.player_bullets) + len(self.boss_bullets)), True, (0, 0, 0)), (10, 40))
 
     def render(self):
         if self.game.clock.get_fps() >= 1:
@@ -31,6 +33,7 @@ class RenderHandler:
             self.__debug()
             self.key_start += tick
             self.bullet_start += tick
+            self.boss_bullet_time += tick
 
             if self.key_start >= 20:
                 keys = pygame.key.get_pressed()
@@ -46,17 +49,25 @@ class RenderHandler:
                 if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
                     self.game.movement_controller.move_x(speed)
                 if keys[pygame.K_SPACE] or keys[pygame.K_z]:
-                    self.bullets.append(Bullet([self.game.movement_controller.pos[0],
+                    self.player_bullets.append(Bullet([self.game.movement_controller.pos[0],
                                                 self.game.movement_controller.pos[1] - 10], 20))
 
                 self.key_start = 0
 
-            if self.bullet_start >= 10:
+            if self.boss_bullet_time >= 90:
                 self.boss.update()
-                print(self.boss.direction)
-                for i, bullet in enumerate(self.bullets):
-                    if bullet.pos[1] < -50:
-                        self.bullets.pop(i)
+                self.boss_bullets.append(Bullet([self.boss.pos[0], self.boss.pos[1]], 5))
+                self.boss_bullet_time = 0
+
+            if self.bullet_start >= 10:
+                for i, bullet in enumerate(self.boss_bullets):
+                    if bullet.pos[1] not in range(-50, 750):
+                        self.boss_bullets.pop(i)
+                    else:
+                        bullet.update()
+                for i, bullet in enumerate(self.player_bullets):
+                    if bullet.pos[1] not in range(-50, 750):
+                        self.player_bullets.pop(i)
                     else:
                         bullet.update()
                 self.bullet_start = 0
@@ -64,7 +75,9 @@ class RenderHandler:
             pygame.draw.circle(self.game.screen, (0, 0, 0), self.game.movement_controller.pos, 15, 0)
             pygame.draw.circle(self.game.screen, (255, 0, 0), self.boss.pos, 15, 0)
 
-            for bullet in self.bullets:
+            for bullet in self.player_bullets:
+                pygame.draw.circle(self.game.screen, (0, 0, 0), bullet.pos, 10)
+            for bullet in self.boss_bullets:
                 pygame.draw.circle(self.game.screen, (0, 0, 0), bullet.pos, 10)
 
             pygame.display.flip()
