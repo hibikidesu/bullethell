@@ -23,9 +23,7 @@ class EnemyBullet:
 
     def update(self):
         new_pos_as_clx = cmath.rect(self.speed, self._radian)
-        xdiff = int(new_pos_as_clx.real)
-        ydiff = int(new_pos_as_clx.imag)
-        self.x += xdiff
-        self.y += ydiff
+        self.x += int(new_pos_as_clx.real)
+        self.y += int(new_pos_as_clx.imag)
         # self.x += round(math.sin(self.direction))
         # self.y += round(math.cos(self.direction))
