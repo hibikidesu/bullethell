@@ -1,5 +1,6 @@
 import pygame
 from .bullet import Bullet
+from .boss import Boss
 
 
 class RenderHandler:
@@ -11,6 +12,7 @@ class RenderHandler:
         self.key_start = 0
         self.bullet_start = 0
         self.bullets = []
+        self.boss = Boss()
 
     def __debug(self):
         self.game.screen.blit(self.font.render("{} FPS".format(int(self.game.clock.get_fps())), True, (0, 0, 0)), (10, 10))
