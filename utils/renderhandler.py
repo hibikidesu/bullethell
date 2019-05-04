@@ -14,7 +14,7 @@ class RenderHandler:
         self.boss_bullet_time = 0
         self.player_bullets = []
         self.boss_bullets = []
-        self.boss = Boss(30)
+        self.boss = Boss(15)
 
     def __debug(self):
         self.game.screen.blit(self.font.render("{} FPS".format(int(self.game.clock.get_fps())), True, (0, 0, 0)), (10, 10))
@@ -62,6 +62,8 @@ class RenderHandler:
             if self.bullet_start >= 10:
                 for i, bullet in enumerate(self.boss_bullets):
                     if bullet.y not in range(-50, 750):
+                        self.boss_bullets.pop(i)
+                    elif bullet.x not in range(-50, 550):
                         self.boss_bullets.pop(i)
                     else:
                         bullet.update()
